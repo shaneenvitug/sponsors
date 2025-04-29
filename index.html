@@ -7,7 +7,7 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles/main.css">
+  <link rel="stylesheet" href="styles/main.css">
 
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -31,21 +31,21 @@
   </script>
 
   <!-- Our Scripts -->
-  <script src="/scripts/config.js"></script>
-  <script src="/scripts/main.js"></script>
+  <script src="scripts/config.js"></script>
+  <script src="scripts/main.js"></script>
 </head>
 <body>
   <div class="card">
-    <h1>Dear <span id="guestName"></span>,</h1>
+    <h1>Dear <span id="guestName">Guest</span>,</h1>
 
     <p>
-      We would be deeply honored to have you as our wedding <span id="roleType"></span>.
+      We would be deeply honored to have you as our wedding <span id="roleType">godparent</span>.
     </p>
     <p>
       Your presence would mean the world to us.
     </p>
 
-    <h2>Will you be our <span id="roleTitle"></span>?</h2>
+    <h2>Will you be our <span id="roleTitle">Ninong</span>?</h2>
 
     <div id="responseBtns">
       <button class="primary-btn" onclick="submitResponse('Yes')">YES</button>
