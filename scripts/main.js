@@ -9,8 +9,11 @@ document.addEventListener('DOMContentLoaded', function() {
     firebase.initializeApp(config.firebase);
     const db = firebase.firestore();
 
-    // Get guest name from URL params
-    const urlParams = new URLSearchParams(window.location.search);
+    // Get guest name from URL params - handle both with and without trailing slash
+    const url = window.location.href;
+    const cleanUrl = url.endsWith('/') ? url.slice(0, -1) : url;
+    const urlParams = new URLSearchParams(new URL(cleanUrl).search);
+    
     const guest = urlParams.get('guest') || 'Guest';
     const role = urlParams.get('role') || 'Ninong';
 
