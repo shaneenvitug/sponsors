@@ -1,10 +1,15 @@
 {
   "version": 2,
-  "rewrites": [
+  "builds": [
     {
-      "source": "/config.js",
-      "destination": "/api/config.js"
-    },
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "public"
+      }
+    }
+  ],
+  "rewrites": [
     {
       "source": "/(.*)",
       "destination": "/$1"
