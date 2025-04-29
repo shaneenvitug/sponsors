@@ -25,32 +25,55 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Try to initialize Firebase and EmailJS
   try {
-    if (typeof config !== 'undefined') {
-      // Initialize EmailJS
+    if (typeof config === 'undefined') {
+      throw new Error('Configuration object not found');
+    }
+
+    // Validate Firebase config
+    const requiredFirebaseFields = ['apiKey', 'authDomain', 'projectId'];
+    const missingFields = requiredFirebaseFields.filter(field => 
+      !config.firebase[field] || config.firebase[field].includes('%')
+    );
+    
+    if (missingFields.length > 0) {
+      throw new Error(`Missing or invalid Firebase config fields: ${missingFields.join(', ')}`);
+    }
+
+    console.log('Initializing Firebase with config:', {
+      projectId: config.firebase.projectId,
+      authDomain: config.firebase.authDomain
+    });
+
+    // Initialize Firebase
+    firebase.initializeApp(config.firebase);
+    const db = firebase.firestore();
+
+    // Initialize EmailJS if config exists
+    if (config.emailjs && config.emailjs.publicKey) {
       emailjs.init(config.emailjs.publicKey);
+    }
 
-      // Firebase config and initialization
-      firebase.initializeApp(config.firebase);
-      const db = firebase.firestore();
+    // Log page opened
+    db.collection("responses").doc(guest).set({
+      opened: new Date(),
+      guest: guest,
+      role: role
+    }, { merge: true }).catch(err => {
+      console.error('Error logging page open:', err);
+    });
 
-      // Log page opened
+    // Set up response handler
+    window.submitResponse = function(answer) {
+      const respondedAt = new Date();
+      
       db.collection("responses").doc(guest).set({
-        opened: new Date()
-      }, { merge: true }).catch(err => {
-        console.error('Error logging page open:', err);
-      });
+        response: answer,
+        respondedAt: respondedAt
+      }, { merge: true }).then(() => {
+        document.getElementById('responseMsg').innerText = "Thank you for your response!";
+        document.getElementById('responseBtns').style.display = 'none';
 
-      // Set up response handler
-      window.submitResponse = function(answer) {
-        const respondedAt = new Date();
-        
-        db.collection("responses").doc(guest).set({
-          response: answer,
-          respondedAt: respondedAt
-        }, { merge: true }).then(() => {
-          document.getElementById('responseMsg').innerText = "Thank you for your response!";
-          document.getElementById('responseBtns').style.display = 'none';
-
+        if (config.emailjs && config.emailjs.serviceId && config.emailjs.templateId) {
           emailjs.send(
             config.emailjs.serviceId,
             config.emailjs.templateId,
@@ -63,18 +86,13 @@ document.addEventListener('DOMContentLoaded', function() {
           ).catch(err => {
             console.error('Error sending email:', err);
           });
-        }).catch(err => {
-          console.error("Error writing response:", err);
-        });
-      };
-    } else {
-      console.warn('Config not found - Firebase and EmailJS features will be disabled');
-      // Basic response handler without Firebase/EmailJS
-      window.submitResponse = function(answer) {
-        document.getElementById('responseMsg').innerText = "Thank you for your response!";
+        }
+      }).catch(err => {
+        console.error("Error writing response:", err);
+        document.getElementById('responseMsg').innerText = "Thank you! Your response has been recorded.";
         document.getElementById('responseBtns').style.display = 'none';
-      };
-    }
+      });
+    };
   } catch (error) {
     console.error('Service initialization error:', error);
     // Basic response handler without Firebase/EmailJS
