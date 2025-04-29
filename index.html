@@ -17,28 +17,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
   <!-- Configuration -->
-  <script>
-    // Firebase Configuration
-    window.config = {
-      firebase: {
-        apiKey: "%FIREBASE_API_KEY%",
-        authDomain: "%FIREBASE_AUTH_DOMAIN%",
-        projectId: "%FIREBASE_PROJECT_ID%",
-        storageBucket: "%FIREBASE_STORAGE_BUCKET%",
-        messagingSenderId: "%FIREBASE_MESSAGING_SENDER_ID%",
-        appId: "%FIREBASE_APP_ID%",
-        measurementId: "%FIREBASE_MEASUREMENT_ID%"
-      },
-      emailjs: {
-        publicKey: "%EMAILJS_PUBLIC_KEY%",
-        serviceId: "%EMAILJS_SERVICE_ID%",
-        templateId: "%EMAILJS_TEMPLATE_ID%"
-      }
-    };
-
-    // Debug: Log config for troubleshooting
-    console.log('Config loaded. Project ID:', window.config.firebase.projectId);
-  </script>
+  <script src="/config.js"></script>
 
   <!-- Our Scripts -->
   <script src="scripts/main.js"></script>
