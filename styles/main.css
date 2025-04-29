@@ -8,7 +8,7 @@ html, body {
 
 body {
   font-family: 'Julius Sans One', sans-serif;
-  background: url('bg.png') center center / 100% 100% no-repeat;
+  background: url('/styles/bg.png') center center / 100% 100% no-repeat;
   color: #3a4d39;
   position: relative;
   display: flex;
