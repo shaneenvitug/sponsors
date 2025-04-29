@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Wedding Primary Sponsors Invite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+  <!-- Our Scripts -->
+  <script src="scripts/config.js"></script>
+  <script src="scripts/main.js"></script>
+</head>
+<body>
+  <div class="card">
+    <h1>Dear <span id="guestName"></span>,</h1>
+
+    <p>
+      As we prepare for our big day, we couldn't think of anyone better to be our wedding <span id="roleType"></span> than you.
+    </p>
+    <p>
+      Your kindness, wisdom, and love for family inspire us every day.
+    </p>
+    <p>
+      Your presence would truly mean the world to us.
+    </p>
+
+    <h2>Will you be our <span id="roleTitle"></span>?</h2>
+
+    <div id="responseBtns">
+      <button class="primary-btn" onclick="submitResponse('Yes')">Yes, I'd be honoured!</button>
+      <button class="secondary-btn" onclick="submitResponse('No')">Sadly, I can't</button>
+    </div>
+
+    <p id="responseMsg"></p>
+    <div class="card-footer">
+      <div class="footer-names">Shaneen & Mark</div>
+      <div class="footer-date">22 November 2025</div>
+    </div>
+  </div>
+</body>
+</html>
