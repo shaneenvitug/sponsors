@@ -19,5 +19,7 @@
       "src": "/(.*)",
       "dest": "/$1"
     }
-  ]
+  ],
+  "trailingSlash": false,
+  "cleanUrls": false
 } 
