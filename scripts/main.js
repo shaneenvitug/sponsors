@@ -9,8 +9,18 @@ document.addEventListener('DOMContentLoaded', function() {
     firebase.initializeApp(config.firebase);
     const db = firebase.firestore();
 
-    // Get guest name from URL params
-    const urlParams = new URLSearchParams(window.location.search);
+    // Get guest name from URL params - handle with or without trailing slash
+    const getUrlParams = () => {
+      const url = window.location.href;
+      const hasTrailingSlash = url.endsWith('/');
+      // If URL has trailing slash, remove it before parsing
+      const searchString = hasTrailingSlash 
+        ? url.slice(0, -1).split('?')[1] || ''
+        : window.location.search.slice(1);
+      return new URLSearchParams(searchString);
+    };
+
+    const urlParams = getUrlParams();
     const guest = decodeURIComponent(urlParams.get('guest') || 'Guest');
     const role = decodeURIComponent(urlParams.get('role') || 'Ninong');
 
