@@ -25,14 +25,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Try to initialize Firebase and EmailJS
   try {
-    if (typeof config === 'undefined') {
+    if (typeof window.config === 'undefined') {
       throw new Error('Configuration object not found');
     }
 
     // Validate Firebase config
     const requiredFirebaseFields = ['apiKey', 'authDomain', 'projectId'];
     const missingFields = requiredFirebaseFields.filter(field => 
-      !config.firebase[field] || config.firebase[field].includes('%')
+      !window.config.firebase[field] || window.config.firebase[field].includes('%')
     );
     
     if (missingFields.length > 0) {
@@ -40,17 +40,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     console.log('Initializing Firebase with config:', {
-      projectId: config.firebase.projectId,
-      authDomain: config.firebase.authDomain
+      projectId: window.config.firebase.projectId,
+      authDomain: window.config.firebase.authDomain
     });
 
     // Initialize Firebase
-    firebase.initializeApp(config.firebase);
+    firebase.initializeApp(window.config.firebase);
     const db = firebase.firestore();
 
     // Initialize EmailJS if config exists
-    if (config.emailjs && config.emailjs.publicKey) {
-      emailjs.init(config.emailjs.publicKey);
+    if (window.config.emailjs && window.config.emailjs.publicKey) {
+      emailjs.init(window.config.emailjs.publicKey);
     }
 
     // Log page opened
@@ -73,10 +73,10 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('responseMsg').innerText = "Thank you for your response!";
         document.getElementById('responseBtns').style.display = 'none';
 
-        if (config.emailjs && config.emailjs.serviceId && config.emailjs.templateId) {
+        if (window.config.emailjs && window.config.emailjs.serviceId && window.config.emailjs.templateId) {
           emailjs.send(
-            config.emailjs.serviceId,
-            config.emailjs.templateId,
+            window.config.emailjs.serviceId,
+            window.config.emailjs.templateId,
             {
               guest: guest,
               role: role,
